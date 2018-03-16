@@ -1,0 +1,9 @@
+﻿  ModuleWindow.cpp
+c:\users\carlosph3\desktop\sdl2_handout\modulewindow.cpp(43): warning C4551: function call missing argument list
+  Application.cpp
+  Generating Code...
+c:\users\carlosph3\desktop\sdl2_handout\modulewindow.cpp(38): warning C4715: 'ModuleWindow::Init': not all control paths return a value
+Application.obj : error LNK2001: unresolved external symbol "public: virtual enum update_status __thiscall ModuleWindow::PreUpdate(void)" (?PreUpdate@ModuleWindow@@UAE?AW4update_status@@XZ)
+Application.obj : error LNK2001: unresolved external symbol "public: virtual enum update_status __thiscall ModuleWindow::Update(void)" (?Update@ModuleWindow@@UAE?AW4update_status@@XZ)
+Application.obj : error LNK2001: unresolved external symbol "public: virtual enum update_status __thiscall ModuleWindow::PostUpdate(void)" (?PostUpdate@ModuleWindow@@UAE?AW4update_status@@XZ)
+C:\Users\carlosph3\Desktop\SDL2_handout\Debug\SDL2 Handout.exe : fatal error LNK1120: 3 unresolved externals
