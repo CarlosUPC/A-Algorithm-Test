@@ -85,7 +85,7 @@ if(i < cols - 1 && j < rows - 1){
 }
 
 function setup() {
-  createCanvas(300,300);
+  createCanvas(600,600);
   console.log('A*');
   getAudioContext().resume();
 
@@ -204,4 +204,11 @@ function draw() {
     path[i].show(color(0,0,255));
   }
 
+  noFill();
+  stroke(255);
+  beginShape();
+  for(var i = 0; i < path.length; i++){
+    vertex(path[i].i*w + w/2, path[i].j*h + h/2);
+  }
+  endShape();
 }
