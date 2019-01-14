@@ -12,8 +12,8 @@ function heuristic(a,b) {
   return d;
 }
 
-var cols = 25;
-var rows = 25;
+var cols = 50;
+var rows = 50;
 var grid = new Array(cols);
 
 var openSet = [];
@@ -23,6 +23,7 @@ var end;
 var w,h;
 var path = [];
 
+
 function Spot(i, j) {
   this.i = i;
   this.j = j;
@@ -31,9 +32,20 @@ function Spot(i, j) {
   this.h = 0;
   this.neighbors = [];
   this.previous = undefined;
+  this.wall = false;
+
+  //Add obstacle
+  if(random(1) < 0.5){
+    this.wall = true;
+  }
+
 
   this.show = function(col){
     fill(col);
+
+    if(this.wall){
+      fill(0);
+    }
     noStroke();
     rect(this.i * w, this.j * h, w-1, h-1);
   }
@@ -55,7 +67,19 @@ if(j > 0) {
  this.neighbors.push(grid[i][j-1]);
 }
 
-
+//Add diagonals
+if(i > 0 && j > 0){
+  this.neighbors.push(grid[i-1][j-1]);
+}
+if(i < cols-1 && j > 0){
+  this.neighbors.push(grid[i+1][j-1]);
+}
+if(i > 0 && j < rows - 1){
+  this.neighbors.push(grid[i-1][j+1]);
+}
+if(i < cols - 1 && j < rows - 1){
+  this.neighbors.push(grid[i+1][j+1]);
+}
 }
 
 }
@@ -86,6 +110,8 @@ function setup() {
 
 start = grid[0][0];
 end = grid[cols- 1][rows- 1];
+start.wall = false;
+end.wall = false;
 
 openSet.push(start);
 
@@ -116,27 +142,34 @@ function draw() {
       for(var i = 0; i < neighbors.length; i++){
         var neighbor = neighbors[i];
 
-          if(!closedSet.includes(neighbor)){
+          if(!closedSet.includes(neighbor) && !neighbor.wall){
             var tempG = current.g + 1;
 
+            var newPath = false;
             if(openSet.includes(neighbor)){
               if(tempG < neighbor.g) {
                 neighbor.g = tempG;
+                newPath = true;
               }
             } else {
               neighbor.g = tempG;
+              newPath = true;
               openSet.push(neighbor);
             }
 
-
-            neighbor.h = heuristic(neighbor,end);
-            neighbor.f = neighbor.g + neighbor.h;
-            neighbor.previous = current;
+            if(newPath){
+              neighbor.h = heuristic(neighbor,end);
+              neighbor.f = neighbor.g + neighbor.h;
+              neighbor.previous = current;
+            }
           }
       }
 
 
   }else{
+    console.log('no solution');
+    noLoop();
+    return;
 
   }
 
@@ -155,6 +188,7 @@ function draw() {
   for (var i = 0; i < openSet.length; i++){
     openSet[i].show(color(0,255,0));
   }
+
 
   path = [];
   var  temp = current;
